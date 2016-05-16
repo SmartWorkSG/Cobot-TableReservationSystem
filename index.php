@@ -146,6 +146,10 @@ foreach($relevantBookings as $booking) {
 }
 
 if(isset($_GET['action'])) {
+	if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) !== $_SERVER['HTTP_HOST']) {
+		die('Potential CSRF detected.');
+	}
+
 	$action = $_GET['action'];
 	switch($action) {
 		case 'free':
