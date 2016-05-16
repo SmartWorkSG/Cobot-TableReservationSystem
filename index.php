@@ -277,6 +277,37 @@ if(isset($_GET['action'])) {
 	<script src='./js/fullcalendar/lib/moment.min.js'></script>
 	<script src='./js/fullcalendar/lib/jquery.min.js'></script>
 	<script src='./js/fullcalendar/fullcalendar.min.js'></script>
+
+	<script>
+		window.Cobot = window.Cobot || {};
+		window.Cobot.iframeResize = function(height) {
+			if(window.top != window) {
+				window.parent.postMessage(JSON.stringify({frameHeight: height || window.Cobot.iframeHeight()}), '*');
+			}
+		};
+		window.Cobot.iframeHeight = window.Cobot.iframeHeight || function() {
+				var height = document.body.offsetHeight;
+				var style = getComputedStyle(document.body);
+				height += parseInt(style.marginTop) + parseInt(style.marginBottom);
+				return height;
+			};
+		if(window.top != window) {
+			window.addEventListener('load', function() {
+				window.Cobot.iframeResize();
+			});
+		}
+		window.Cobot.scrollTop = 0;
+		window.addEventListener('message', function(message) {
+			try {
+				var data = JSON.parse(message.data);
+				if(data.scrollTop) {
+					window.Cobot.scrollTop = data.scrollTop;
+				}
+			} catch(e) {
+				// invalid json, ignore
+			}
+		}, false);
+	</script>
 	<script>
 
 		$(document).ready(function() {
