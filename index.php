@@ -256,7 +256,7 @@ if(isset($_GET['action'])) {
 						],
 					]
 				);
-				die('Erfolgreich gebucht! <a href="'.$config['redirectUrl'].'">Zurück zum Buchungsinterface</a>');
+				die('Erfolgreich gebucht! <a href="'.$config['redirectUri'].'">Zurück zum Buchungsinterface</a>');
 			} else {
 				die('Keine Day Passes übrig. Bitte erwerbe neue.');
 			}
