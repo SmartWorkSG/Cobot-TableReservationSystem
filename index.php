@@ -295,7 +295,7 @@ if(isset($_GET['action'])) {
 				selectHelper: true,
 				select: function(start, end, allDay) {
 					var check = $.fullCalendar.moment(start);
-					var today = $.fullCalendar.moment(new Date().getUTCDate());
+					var today = $.fullCalendar.moment(new Date());
 					if(check < today)
 					{
 						// Previous Day
