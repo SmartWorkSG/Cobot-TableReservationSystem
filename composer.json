@@ -1,0 +1,12 @@
+{
+    "name": "lukasreschke/cobot-table-reservation-system",
+    "authors": [
+        {
+            "name": "Lukas Reschke",
+            "email": "lukas@owncloud.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    }
+}
