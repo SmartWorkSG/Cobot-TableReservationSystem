@@ -123,7 +123,15 @@ function getBookings(array $config) {
 $tables = getTables($config);
 $bookings = getBookings($config);
 $relevantBookings = [];
-$state = isset($tables[$loggedInUser]) ? 'Fix' : 'Flex';
+$state = 'Flex';
+foreach($tables as $table) {
+	$explode = explode('_', $table['name']);
+	$ownerId = array_pop($explode);
+	if($ownerId === $loggedInUser) {
+		$state = 'Fix';
+		break;
+	}
+}
 foreach($bookings as $booking) {
 	if(substr($booking['resource_name'], 0, 4) === 'FIX_') {
 		array_push($relevantBookings, $booking);
