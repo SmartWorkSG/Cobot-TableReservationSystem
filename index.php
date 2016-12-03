@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 'On');
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 $config = require_once __DIR__ . '/config/config.php';
@@ -106,18 +108,25 @@ function getTables(array $config) {
 
 function getBookings(array $config) {
 	$client = new GuzzleHttp\Client();
+	$currentDate = new DateTime();
+	$interval = new DateInterval('P1M');
+	$from = $currentDate->sub($interval)->format('Y-m-d');
+	$to = $currentDate->add($interval)->format('Y-m-d');
+
 	$res = $client->request(
 		'GET',
-		'https://smartspace.cobot.me/api/bookings?from=2012-04-12&to=2050-04-18',
+		sprintf(
+			'https://smartspace.cobot.me/api/bookings?from=%s&to=%s',
+			$from,
+			$to
+		),
 		[
 			'headers' => [
 				'Authorization' => 'Bearer ' . $config['accessToken'],
 			],
 		]
 	);
-	$tablesInSystem = json_decode($res->getBody()->getContents(), true);
-
-	return $tablesInSystem;
+	return json_decode($res->getBody()->getContents(), true);
 }
 
 $tables = getTables($config);
