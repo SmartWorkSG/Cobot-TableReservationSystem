@@ -286,12 +286,12 @@ if(isset($_GET['action'])) {
 				$bookerName = '';
 				foreach($members as $member) {
 					if($member['user']['id'] === $ownerId) {
-						$ownerMail = $member['user']['mail'];
-						$ownerName = $member['user']['name'];
+						$ownerMail = $member['user']['email'];
+						$ownerName = $member['name'];
 					}
 					if($member['user']['id'] === $loggedInUser) {
-						$bookerMail = $member['user']['mail'];
-						$bookerName = $member['user']['name'];
+						$bookerMail = $member['user']['email'];
+						$bookerName = $member['name'];
 					}
 				}
 
