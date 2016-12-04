@@ -285,11 +285,11 @@ if(isset($_GET['action'])) {
 				$bookerMail = '';
 				$bookerName = '';
 				foreach($members as $member) {
-					if($member['user']['id'] === $ownerId) {
+					if($member['id'] === $ownerId) {
 						$ownerMail = $member['user']['email'];
 						$ownerName = $member['name'];
 					}
-					if($member['user']['id'] === $loggedInUser) {
+					if($member['id'] === $loggedInUser) {
 						$bookerMail = $member['user']['email'];
 						$bookerName = $member['name'];
 					}
