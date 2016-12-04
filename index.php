@@ -350,7 +350,7 @@ if(isset($_GET['action'])) {
 						check.stripTime();
 						var confirmation = prompt('Willst du deinen Tisch wirklich am '+check.format()+' freigeben?\nTippe "JA" um fortzufahren. Dies ist unwiderruflich.');
 						if (confirmation === 'JA') {
-							window.open('./index.php?action=free&from='+check.format()+' 00:00 CEST&to='+check.format()+' 23:59 CEST', '_self')
+							window.open('./index.php?action=free&from='+check.format()+' 12:00 CEST&to='+check.format()+' 13:00 CEST', '_self')
 						}
 					}
 				},
