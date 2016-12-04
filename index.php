@@ -437,6 +437,7 @@ if($state === 'Fix'):
 <?php else: ?>
 <p>Bitte wähle einen Tisch zur Buchung.</p>
 <?php endif; ?>
+<p>Hinweis: Es können maximal Tische in den nächsten 30 Tagen freigegeben und gebucht werden.</p>
 </div>
 <div id='calendar'></div>
 
