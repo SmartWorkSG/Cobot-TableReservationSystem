@@ -288,12 +288,10 @@ if(isset($_GET['action'])) {
 					if($member['user']['id'] === $ownerId) {
 						$ownerMail = $member['user']['mail'];
 						$ownerName = $member['user']['name'];
-						break;
 					}
 					if($member['user']['id'] === $loggedInUser) {
 						$bookerMail = $member['user']['mail'];
 						$bookerName = $member['user']['name'];
-						break;
 					}
 				}
 
@@ -311,7 +309,7 @@ if(isset($_GET['action'])) {
 					"Hallo %s,\n" .
 					"Dein Tisch im Coworking Space wurde für den %s erfolgreich gebucht. Wir freuen Dich bei uns begrüssen zu dürfen!\n" .
 					"Bei Fragen wende dich bitte jederzeit an %s (%s).\n" .
-					"Beste Grüsse," .
+					"Beste Grüsse,\n" .
 					"SmartSpace St.Gallen",
 					$bookerName,
 					$bookDate,
