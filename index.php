@@ -267,6 +267,62 @@ if(isset($_GET['action'])) {
 						],
 					]
 				);
+
+				// Send a mail to the booker as well as to the owner of the table
+				$client = new GuzzleHttp\Client();
+				$res = $client->request(
+					'GET',
+					'https://smartspace.cobot.me/api/memberships',
+					[
+						'headers' => [
+							'Authorization' => 'Bearer ' . $config['accessToken'],
+						],
+					]
+				);
+				$members = json_decode($res->getBody()->getContents(), true);
+				$ownerMail = '';
+				$ownerName = '';
+				$bookerMail = '';
+				$bookerName = '';
+				foreach($members as $member) {
+					if($member['user']['id'] === $ownerId) {
+						$ownerMail = $member['user']['mail'];
+						$ownerName = $member['user']['name'];
+						break;
+					}
+					if($member['user']['id'] === $loggedInUser) {
+						$bookerMail = $member['user']['mail'];
+						$bookerName = $member['user']['name'];
+						break;
+					}
+				}
+
+				$bookDate = '';
+				foreach($bookings as $booking) {
+					if($booking['id'] === $bookingId) {
+						$bookDate = $booking['from'];
+						$bookDate = (new DateTime($bookDate))->format('d.m.Y');
+					}
+				}
+
+				$to = $bookerMail . ',' . $ownerMail;
+				$subject = 'Tisch erfolgreich gebucht';
+				$message = sprintf(
+					"Hallo %s,\n" .
+					"Dein Tisch im Coworking Space wurde für den %s erfolgreich gebucht. Wir freuen Dich bei uns begrüssen zu dürfen!\n" .
+					"Bei Fragen wende dich bitte jederzeit an %s (%s).\n" .
+					"Beste Grüsse," .
+					"SmartSpace St.Gallen",
+					$bookerName,
+					$bookDate,
+					$ownerName,
+					$ownerMail
+				);
+				$headers = 'From: info@smartworksg.ch' . "\r\n" .
+					'X-Mailer: PHP/' . phpversion();
+
+				mail($to, $subject, $message, $headers);
+
 				die('Erfolgreich gebucht! <a href="'.$config['redirectUri'].'">Zurück zum Buchungsinterface</a>');
 			} else {
 				die('Keine Day Passes übrig. Bitte erwerbe neue. Die Buchung wurde NICHT durchgeführt.');
