@@ -60,13 +60,12 @@ if(isset($_GET['code'])) {
 }
 
 // Check if cookie is sent with the request
-if(isset($_COOKIE['auth']) && isset($_COOKIE['auth_plain'])) {
+if(isset($_COOKIE['auth'], $_COOKIE['auth_plain'])) {
 	if(hash_hmac('sha512', $_COOKIE['auth_plain'], $config['accessToken']) === $_COOKIE['auth']) {
 		$loggedInUser = $_COOKIE['auth_plain'];
 	} else {
 		// Redirect to auth page
-		unset($_COOKIE['auth']);
-		unset($_COOKIE['auth_plain']);
+		unset($_COOKIE['auth'], $_COOKIE['auth_plain']);
 		setcookie('auth', null, -1, '/');
 		setcookie('auth_plain', null, -1, '/');
 		header('Location: https://www.cobot.me/oauth/authorize?response_type=code&client_id='.$config['clientId'].'&redirect_uri='.$config['redirectUri'].'&state=&scope=read_user');
@@ -108,10 +107,9 @@ function getTables(array $config) {
 
 function getBookings(array $config) {
 	$client = new GuzzleHttp\Client();
-	$currentDate = new DateTime();
 	$interval = new DateInterval('P1M');
-	$from = $currentDate->sub($interval)->format('Y-m-d');
-	$to = $currentDate->add($interval)->format('Y-m-d');
+	$from = (new DateTime())->sub($interval)->format('Y-m-d');
+	$to = (new DateTime())->add($interval)->format('Y-m-d');
 
 	$res = $client->request(
 		'GET',
@@ -271,7 +269,7 @@ if(isset($_GET['action'])) {
 				);
 				die('Erfolgreich gebucht! <a href="'.$config['redirectUri'].'">Zurück zum Buchungsinterface</a>');
 			} else {
-				die('Keine Day Passes übrig. Bitte erwerbe neue.');
+				die('Keine Day Passes übrig. Bitte erwerbe neue. Die Buchung wurde NICHT durchgeführt.');
 			}
 			break;
 	}
