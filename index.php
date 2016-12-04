@@ -340,12 +340,15 @@ if(isset($_GET['action'])) {
 				select: function(start, end, allDay) {
 					var check = $.fullCalendar.moment(start);
 					var today = $.fullCalendar.moment(new Date());
-					if(check < today)
-					{
+					var inThirtyDays = new Date();
+					inThirtyDays.setDate(inThirtyDays.getDate() + 30);
+					inThirtyDays = $.fullCalendar.moment(inThirtyDays);
+
+					if(check < today) {
 						// Previous Day
-					}
-					else
-					{
+					} else if (check > inThirtyDays) {
+						// More than 1 month in the future
+					} else {
 						check.stripTime();
 						var confirmation = prompt('Willst du deinen Tisch wirklich am '+check.format()+' freigeben?\nTippe "JA" um fortzufahren. Dies ist unwiderruflich.');
 						if (confirmation === 'JA') {
