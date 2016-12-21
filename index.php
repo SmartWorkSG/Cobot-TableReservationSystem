@@ -261,7 +261,7 @@ if(isset($_GET['action'])) {
 						],
 						'form_params' => [
 							'description' => 'Tischfreigabe '.$bookingId,
-							'amount' => '-10',
+							'amount' => '-15',
 							'charged_at' => date('Y-m-d'),
 							'quantity' => '1.0',
 						],
